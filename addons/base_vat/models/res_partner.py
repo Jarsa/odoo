@@ -103,6 +103,7 @@ class ResPartner(models.Model):
             # country code or empty VAT number), so we fall back to the simple check.
             return self.simple_vat_check(country_code, vat_number)
 
+<<<<<<< HEAD
     @api.model
     def fix_eu_vat_number(self, country_id, vat):
         europe = self.env.ref('base.europe')
@@ -117,6 +118,9 @@ class ResPartner(models.Model):
         return vat
 
     @api.constrains("vat", "commercial_partner_country_id")
+=======
+    @api.constrains('vat', 'commercial_partner_country_id')
+>>>>>>> [FIX] base, base_vat: constrains decorator does support only directs fields (#127)
     def check_vat(self):
         if self.env.context.get('company_id'):
             company = self.env['res.company'].browse(self.env.context['company_id'])
