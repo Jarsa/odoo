@@ -8,18 +8,18 @@
 # Bole <bole@dajmi5.com>, 2016
 # Vladimir Olujić <olujic.vladimir@storm.hr>, 2016
 # Ivica Dimjašević <ivica.dimjasevic@storm.hr>, 2016
+# Tina Milas <tina@uvid.hr>, 2016
 # Đurđica Žarković <durdica.zarkovic@storm.hr>, 2016
 # Mario Jureša <mario.juresa@uvid.hr>, 2016
 # Marko Carević <marko.carevic@live.com>, 2016
 # Jasmina Otročak <jasmina@uvid.hr>, 2016
-# Tina Milas <tina@uvid.hr>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-23 13:27+0000\n"
 "PO-Revision-Date: 2017-06-23 13:27+0000\n"
-"Last-Translator: Tina Milas <tina@uvid.hr>, 2017\n"
+"Last-Translator: Jasmina Otročak <jasmina@uvid.hr>, 2016\n"
 "Language-Team: Croatian (https://www.transifex.com/odoo/teams/41243/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +178,7 @@ msgstr "= Teoretski saldo zatvaranja"
 #: code:addons/point_of_sale/static/src/js/screens.js:1909
 #, python-format
 msgid "? Clicking \"Confirm\" will validate the payment."
-msgstr "? Klik na \"Potvrdi\" će potvrditi uplatu"
+msgstr "? Klik na \"Potvrdi\" će potvrditi uplatu."
 
 #. module: point_of_sale
 #. openerp-web
@@ -698,32 +698,32 @@ msgstr "Grad"
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.product_product_action
 msgid "Click to add a new product."
-msgstr "Klikni za dodavanje novog proizvoda."
+msgstr "Kliknite za dodavanje novog proizvoda."
 
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.action_account_journal_form
 msgid "Click to add a payment method."
-msgstr "Klikni za dodavanje načina plaćanja."
+msgstr "Kliknite za dodavanje načina plaćanja."
 
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.action_pos_config_kanban
 msgid "Click to create a new PoS config."
-msgstr "Klikni za dodavanje nove POS konfig."
+msgstr "Kliknite za dodavanje nove POS konfig."
 
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.action_pos_pos_form
 msgid "Click to create a new order."
-msgstr "Klikni za kreiranje nove narudžbe."
+msgstr "Kliknite za kreiranje nove narudžbe."
 
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.product_pos_category_action
 msgid "Click to define a new category."
-msgstr "Klikni za definiranje nove kategorije."
+msgstr "Kliknite za definiranje nove kategorije."
 
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.action_pos_session
 msgid "Click to start a new session."
-msgstr "Klikni za otvaranje nove sesije."
+msgstr "Kliknite za otvaranje nove sesije."
 
 #. module: point_of_sale
 #: code:addons/point_of_sale/models/barcode_rule.py:15
@@ -1447,7 +1447,7 @@ msgstr "Da bi obrisali prodaju ona mora biti nova ili otkazana."
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.view_pos_config_search
 msgid "Inactive"
-msgstr "Neaktivno"
+msgstr "Neaktivan"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config_iface_tax_included
@@ -2846,7 +2846,7 @@ msgstr "Postavi težinu"
 #: model:ir.ui.menu,name:point_of_sale.menu_pos_global_settings
 #: model:ir.ui.view,arch_db:point_of_sale.view_pos_config_kanban
 msgid "Settings"
-msgstr "Postave"
+msgstr "Postavke"
 
 #. module: point_of_sale
 #. openerp-web

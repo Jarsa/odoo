@@ -2001,7 +2001,7 @@ msgstr "Αναμονή πληρωμών"
 #: code:addons/account/models/chart_template.py:183
 #, python-format
 msgid "BILL"
-msgstr "ΛΟΓΑΡΙΑΣΜΟΣ"
+msgstr "BILL"
 
 #. module: account
 #: selection:res.partner,trust:0
@@ -10411,6 +10411,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.invoice_form
 #: model:ir.ui.view,arch_db:account.invoice_supplier_form
 msgid "You have"
+msgstr ""
+
+#. module: account
+#: code:addons/account/models/account_payment.py:360
+#, python-format
+msgid "You have to define a sequence for %s in your company."
 msgstr ""
 
 #. module: account
