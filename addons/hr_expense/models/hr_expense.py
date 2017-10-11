@@ -278,7 +278,7 @@ class HrExpense(models.Model):
             account_move.append(move_line)
 
             # Calculate tax lines and adjust base line
-            taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id)
+            taxes = expense.tax_ids.with_context(round=True).compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id)
             account_move[-1]['price'] = taxes['total_excluded']
             account_move[-1]['tax_ids'] = [(6, 0, expense.tax_ids.ids)]
             for tax in taxes['taxes']:
@@ -486,10 +486,13 @@ class HrExpenseSheet(models.Model):
     @api.one
     @api.depends('expense_line_ids', 'expense_line_ids.total_amount', 'expense_line_ids.currency_id')
     def _compute_amount(self):
-        if len(self.expense_line_ids.mapped('currency_id')) < 2:
-            self.total_amount = sum(self.expense_line_ids.mapped('total_amount'))
-        else:
-            self.total_amount = 0.0
+        total_amount = 0.0
+        for expense in self.expense_line_ids:
+            total_amount += expense.currency_id.with_context(
+                date=expense.date,
+                company_id=expense.company_id.id
+            ).compute(expense.total_amount, self.currency_id)
+        self.total_amount = total_amount
 
     # FIXME: A 4 command is missing to explicitly declare the one2many relation
     # between the sheet and the lines when using 'default_expense_line_ids':[ids]
