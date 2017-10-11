@@ -2163,6 +2163,8 @@ msgid ""
 "The ordered quantity has been decreased. Do not forget to take it into "
 "account on your invoices and delivery orders."
 msgstr ""
+"Die Bestellmenge wurde verringert. Vergessen Sie nicht, dies auf Ihren "
+"Rechnungen und Lieferscheinen zu berücksichtigen."
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_config_settings_group_display_incoterm
@@ -2494,6 +2496,9 @@ msgid ""
 "Your next actions should flow efficiently: confirm the Quotation\n"
 "            to a Sale Order, then create the Invoice and collect the Payment."
 msgstr ""
+"Ihre nächsten Aktionen sollten effizient von der Hand gehen: Geben Sie das "
+"Angebot frei zum Auftrag, legen dann die Rechnung an und ziehen die "
+"Bezahlung ein."
 
 #. module: sale
 #: model:ir.actions.act_window,help:sale.act_res_partner_2_sale_order

@@ -382,7 +382,7 @@ msgstr ""
 #. module: mass_mailing
 #: model:ir.actions.act_window,help:mass_mailing.mass_mailing_tag_action
 msgid "Click to add a new tag."
-msgstr ""
+msgstr "Натиснете за добавяне на нов етикет."
 
 #. module: mass_mailing
 #: model:ir.actions.act_window,help:mass_mailing.action_view_mass_mailing_contacts_from_list
@@ -954,7 +954,7 @@ msgstr ""
 #. module: mass_mailing
 #: model:mail.mass_mailing.tag,name:mass_mailing.mass_mail_tag_1
 msgid "Marketing"
-msgstr ""
+msgstr "Маркетинг"
 
 #. module: mass_mailing
 #: model:ir.model.fields,field_description:mass_mailing.field_mail_statistics_report_name
