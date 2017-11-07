@@ -2524,6 +2524,10 @@ msgid ""
 "Odoo E-Commerce\n"
 "==================\n"
 "\n"
+=======
+"Odoo Contact Form\n"
+"====================\n"
+"\n"
 "        "
 msgstr ""
 
@@ -2546,6 +2550,22 @@ msgid ""
 "====================\n"
 "\n"
 "Allows you to build web forms on the website using the website builder.\n"
+=======
+#: model:ir.module.module,description:base.module_website_customer
+msgid ""
+"\n"
+"Odoo Customer References\n"
+"===========================\n"
+msgstr ""
+
+#. module: base
+#: model:ir.module.module,description:base.module_website_sale
+#: model:ir.module.module,description:base.module_website_sale_options
+msgid ""
+"\n"
+"Odoo E-Commerce\n"
+"==================\n"
+"\n"
 "        "
 msgstr ""
 

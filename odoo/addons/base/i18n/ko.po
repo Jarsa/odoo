@@ -3535,10 +3535,8 @@ msgid ""
 "This is the base module to manage the accounting chart for Dominican Republic.\n"
 "==============================================================================\n"
 "\n"
-"* Chart of Accounts.\n"
-"* The Tax Code Chart for Domincan Republic\n"
-"* The main taxes used in Domincan Republic\n"
-"* Fiscal position for local "
+"Accounting chart and localization for Ecuador.\n"
+"    "
 msgstr ""
 
 #. module: base
@@ -4677,6 +4675,36 @@ msgstr ""
 #: model:ir.ui.view,arch_db:base.res_lang_form
 msgid "%A - Full weekday name."
 msgstr "%A - 긴 요일 이름(월요일,화요일)."
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.res_lang_form
+msgid "%B - Full month name.\""
+msgstr ""
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.res_lang_form
+msgid "%H - Hour (24-hour clock) [00,23].\""
+msgstr ""
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.res_lang_form
+msgid "%I - Hour (12-hour clock) [01,12].\""
+msgstr ""
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.res_lang_form
+msgid "%M - Minute [00,59].\""
+msgstr ""
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.res_lang_form
+msgid "%S - Seconds [00,61].\""
+msgstr ""
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.res_lang_form
+msgid "%Y - Year with century.\""
+msgstr ""
 
 #. module: base
 #: model:ir.ui.view,arch_db:base.res_lang_form
@@ -12210,7 +12238,7 @@ msgstr ""
 #. module: base
 #: code:addons/models.py:5652
 #, python-format
-msgid "Missing required value for the field '%s'."
+msgid "Missing view architecture."
 msgstr ""
 
 #. module: base

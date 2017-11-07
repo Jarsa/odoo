@@ -883,6 +883,9 @@ msgstr ""
 "\n"
 "التقارير المحاسبية لكولومبيا\n"
 "================================"
+=======
+"        بيانات المشروبات العادية لنقاط البيع\n"
+"    "
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_hr_reports

@@ -2884,6 +2884,22 @@ msgstr ""
 #: model:ir.module.module,description:base.module_l10n_in_hr_payroll
 msgid ""
 "\n"
+"Indian Accounting: Chart of Account.\n"
+"====================================\n"
+"\n"
+"Indian accounting chart and localization.\n"
+"\n"
+"Schedule VI chart of account for indian accounting.\n"
+"\n"
+"Note: The Schedule VI has been revised by MCA and is applicable for all Balance Sheet made after\n"
+"31st March, 2011. The Format has done away with earlier two options of format of Balance\n"
+"Sheet, now only Vertical format has been permitted Which is Supported By OpenERP.\n"
+"  "
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_in_hr_payroll
+msgid ""
+"\n"
 "Indian Payroll Salary Rules.\n"
 "============================\n"
 "\n"
@@ -3792,6 +3808,9 @@ msgid ""
 "This module modifies the web addon to provide Enterprise design and responsiveness.\n"
 "        "
 msgstr ""
+"\n"
+"Odoo Kundenreferenzen\n"
+"===========================\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_form_editor
