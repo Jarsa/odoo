@@ -12,7 +12,7 @@ class ReportAgedPartnerBalance(models.AbstractModel):
 
     _name = 'report.account.report_agedpartnerbalance'
 
-    def _get_partner_move_lines(self, account_type, date_from, target_move, period_length, currency_ids):
+    def _get_partner_move_lines(self, account_type, date_from, target_move, period_length, currency_ids=False):
         periods = {}
         start = datetime.strptime(date_from, "%Y-%m-%d")
         for i in range(5)[::-1]:
