@@ -57,8 +57,6 @@ class ReportAgedPartnerBalance(models.AbstractModel):
             currency_clause = ' AND l.currency_id IS NULL'
         else:
             currency_clause = ' AND l.currency_id = %s' % currency_ids
-
-        arg_list += (date_from, user_company)
         query = '''
             SELECT DISTINCT l.partner_id, UPPER(res_partner.name)
             FROM account_move_line AS l left join res_partner on l.partner_id = res_partner.id, account_account, account_move am
