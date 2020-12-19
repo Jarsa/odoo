@@ -91,7 +91,7 @@ class ReportAgedPartnerBalance(models.AbstractModel):
                     AND (COALESCE(l.date_maturity,l.date) > %s)\
                     AND ((l.partner_id IN %s) OR (l.partner_id IS NULL))
                 AND (l.date <= %s)
-                AND l.company_id IN %s'''
+                AND l.company_id IN %s''' + currency_clause
         cr.execute(query, (tuple(move_state), tuple(account_type), date_from, tuple(partner_ids), date_from, tuple(company_ids)))
         aml_ids = cr.fetchall()
         aml_ids = aml_ids and [x[0] for x in aml_ids] or []
