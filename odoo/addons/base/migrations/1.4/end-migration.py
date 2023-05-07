@@ -12,12 +12,36 @@ _logger = logging.getLogger(__name__)
 
 
 to_remove = [
+    'account_coa_menu',
+    'account_fiscalyear_close_analytic', #validar  https://github.com/Jarsa/account-fix-tools
+    'account_fiscalyear_close', #validar  https://github.com/Jarsa/account-fix-tools
+    'account_group_menu',
+    'account_invoice_currency_date_invoice',
+    'account_invoice_fix_number',#-------------------
+    'account_invoice_tier_validation',
+    'account_menu',
+    'account_refund_change_account',
+    'account_tag_menu', #validar
+    'account_type_menu',
+    'bi_sql_editor_aggregate',
+    'hr_contract_document', #validar
+    'hr_contract_reference',
+    'hr_employee_document',#validar
+    'l10n_mx_edi_addendas',
+    'l10n_mx_edi_bank',
+    'l10n_mx_edi_cancelattion_complement',
     'l10n_mx_edi_vendor_bills',
-    'project_timeline_hr_timesheet',
-    'web_widget_color',
-    'l10n_mx_edi_cancellation_complement',
-    'res_currency_rate_custom_decimals',
+    'l10n_mx_edi_vendor_validation',
+    'project_recalculate',
+    'project_stage_closed',
+    'project_task_dependency',
     'project_task_milestone',
+    'project_template_milestone',
+    'project_timeline_hr_timesheet', #validar
+    'project_timeline_task_dependency',
+    'proyecto_recalcular',
+    'res_currency_rate_custom_decimals',
+    'web_widget_color',
 ]
 
 

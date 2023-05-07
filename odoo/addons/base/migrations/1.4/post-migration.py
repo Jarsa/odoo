@@ -18,36 +18,7 @@ to_install = [
 
 # List of modules to remove (uninstall)
 to_remove = [
-    'l10n_mx_edi_addendas',
-    'l10n_mx_edi_cancelattion_complement',
-    'l10n_mx_edi_vendor_bills',
-    'l10n_mx_edi_bank',
-    'account_type_menu',
-    'project_task_dependency',
-    'project_template_milestone',
-    'hr_employee_document',#validar
-    'res_currrency_rate_custom_decimals',
-    'hr_contract_document', #validar
-    'project_timeline_hr_timesheet', #validar
-    'account_fiscalyear_close_analytic', #validar  https://github.com/Jarsa/account-fix-tools
-    'account_tag_menu', #validar
-    'account_invoice_currency_date_invoice',
-    'project_timeline_task_dependency',
-    'hr_contract_reference',
-    'account_invoice_fix_number',#-------------------
-    'account_invoice_tier_validation',
-    'project_stage_closed',
-    'bi_sql_editor_aggregate',
-    'account_menu',
-    'account_coa_menu',
-    'web_widget_color',
-    'proyecto_recalcular',
-    'account_fiscalyear_close', #validar  https://github.com/Jarsa/account-fix-tools
-    'account_group_menu',
-    'l10n_mx_edi_vendor_validation',
-    'project_recalculate',
-    'project_task_milestone',
-    'account_refund_change_account',
+    
 ]
 
 # List of modules to remove all views.
@@ -166,21 +137,6 @@ def remove_assets(env):
     env.cr.execute(
         'DELETE FROM  ir_asset WHERE id IN (5, 29, 19, 21, 22)'
     )
-# def update_project_id(env):
-#         env.cr.execute(
-#             'UPDATE purchase_order_line SET project_id=null'
-#         )
-### Descomentar si es necesario, se eliminaban los project por error en en algunos proyectos 
-### de las cuentas analiticas
-### Se levanto ticket a odoo pero no me informaron si hubo respuesta
-
-def remove_property_account_position_id(env):
-    env.cr.execute(
-        'UPDATE res_partner set property_account_position_id=null'
-    )
-    env.cr.execute(
-        'UPDATE res_users set property_account_position_id=null'
-    )
 
 @openupgrade.migrate()
 def migrate(env, installed_version):
@@ -222,6 +178,4 @@ def migrate(env, installed_version):
         modules_to_remove.unlink()
     _logger.warning('Delete views')
     remove_views(env)
-    #update_project_id(env)
-    remove_property_account_position_id(env)
     remove_assets(env)
