@@ -29,7 +29,7 @@ to_remove = [
     'hr_employee_document',#validar
     'l10n_mx_edi_addendas',
     'l10n_mx_edi_bank',
-    'l10n_mx_edi_cancelattion_complement',
+    'l10n_mx_edi_cancellation_complement',
     'l10n_mx_edi_vendor_bills',
     'l10n_mx_edi_vendor_validation',
     'project_recalculate',
@@ -70,6 +70,36 @@ def migrate(env, installed_version):
     modules_to_remove.module_uninstall()
     modules_to_remove.unlink()
     change_password(env)
+    _logger.warning('Update account move set analytic account')
+    env.cr.execute("""
+        UPDATE account_move am
+        SET analytic_account_id = (
+            SELECT ai.account_analytic_id
+            FROM account_invoice ai
+            WHERE ai.move_id = am.id
+        );
+    """)
+    _logger.warning('Update account move set analytic tag')
+    env.cr.execute("""
+        UPDATE account_move am
+        SET account_analytic_tag_id = (
+            SELECT ai.account_analytic_tag_id
+            FROM account_invoice ai
+            WHERE ai.move_id = am.id
+        );
+    """)
+    _logger.warning('Update account move set team analytic account')
+    env.cr.execute("""
+        UPDATE account_move am
+        SET team_account_analytic_tag_id = (
+            SELECT ai.team_account_analytic_tag_id
+            FROM account_invoice ai
+            WHERE ai.move_id = am.id
+        );
+    """)
+    _logger.warning("Activate views")
+    env.cr.execute("update ir_ui_view set active=true where id in (1466,1453,2611,1467,2707);")
+    _logger.warning("Restore module base to version 1.4")
     env.cr.execute("""
         UPDATE ir_module_module
         SET
