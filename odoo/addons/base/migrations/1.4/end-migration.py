@@ -56,6 +56,21 @@ def change_password(env):
         SET password='admin';
     """)
 
+def fix_tier_definition(env):
+    _logger.warning("Adapt tier definition from account.invoice to account.move")
+    env.cr.execute("""
+        UPDATE tier_definition
+        SET model='account.move'
+        WHERE model='account.invoice';
+    """)
+    definitions = env["tier.definition"].search([('model', '=', 'account.move')])
+    for definition in definitions:
+        definition.write({
+            "definition_domain": definition.definition_domain.replace(
+                '"account_analytic_id"', '"analytic_account_id.name"').replace(
+                '"type"', '"move_type"')
+        })
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     _logger.warning('Delete records from XML ID')
@@ -99,6 +114,7 @@ def migrate(env, installed_version):
     """)
     _logger.warning("Activate views")
     env.cr.execute("update ir_ui_view set active=true where id in (1466,1453,2611,1467,2707);")
+    fix_tier_definition(env)
     _logger.warning("Restore module base to version 1.4")
     env.cr.execute("""
         UPDATE ir_module_module
