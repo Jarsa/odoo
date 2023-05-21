@@ -71,6 +71,53 @@ def fix_tier_definition(env):
                 '"type"', '"move_type"')
         })
 
+def set_payment_accounts(env):
+    _logger.warning("Set payment accounts")
+    env.cr.execute("""
+        UPDATE res_company
+        SET
+        account_journal_suspense_account_id = 8224,
+        account_journal_payment_debit_account_id = 8214,
+        account_journal_payment_credit_account_id = 8223
+        WHERE id = 1;
+    """)
+    env.cr.execute("""
+        UPDATE res_company
+        SET
+        account_journal_suspense_account_id = 8229,
+        account_journal_payment_debit_account_id = 8227,
+        account_journal_payment_credit_account_id = 8228
+        WHERE id = 4;
+    """)
+    env.cr.execute("""
+        UPDATE res_company
+        SET
+        account_journal_suspense_account_id = 8234,
+        account_journal_payment_debit_account_id = 8232,
+        account_journal_payment_credit_account_id = 8233
+        WHERE id = 3;
+    """)
+
+
+def copy_xml_from_payment_to_move(env):
+    _logger.warning("Copy xml from payment to move")
+    payments = env["account.payment"].search([
+        ("state", "=", "posted"),
+        ("edi_document_ids", "!=", False),
+    ])
+    for payment in payments:
+        attachments = env["ir.attachment"].search([
+            ("res_model", "=", "account.payment"),
+            ("res_id", "=", payment.id),
+            ("l10n_mx_edi_cfdi_uuid", "!=", False),
+        ])
+        for attachment in attachments:
+            attachment.with_context(states2omit={"draft", "cancel", "posted"}).copy({
+                "res_model": "account.move",
+                "res_id": payment.move_id.id,
+            })
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     _logger.warning('Delete records from XML ID')
@@ -115,6 +162,8 @@ def migrate(env, installed_version):
     _logger.warning("Activate views")
     env.cr.execute("update ir_ui_view set active=true where id in (1466,1453,2611,1467,2707);")
     fix_tier_definition(env)
+    set_payment_accounts(env)
+    copy_xml_from_payment_to_move(env)
     _logger.warning("Restore module base to version 1.4")
     env.cr.execute("""
         UPDATE ir_module_module
