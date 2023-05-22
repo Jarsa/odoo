@@ -164,6 +164,8 @@ def migrate(env, installed_version):
     fix_tier_definition(env)
     set_payment_accounts(env)
     copy_xml_from_payment_to_move(env)
+    _logger.warning("Delete ir.ui.view.custom")
+    env.cr.execute("DELETE FROM ir_ui_view_custom;")
     _logger.warning("Restore module base to version 1.4")
     env.cr.execute("""
         UPDATE ir_module_module
