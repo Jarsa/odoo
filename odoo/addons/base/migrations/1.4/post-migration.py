@@ -9,9 +9,6 @@ _logger = logging.getLogger(__name__)
 
 # List of modules to install
 to_install = [
-    #'l10n_mx_edi_40',
-    #'l10n_mx_edi_extended_40',
-    #'l10n_mx_edi_implocal'
     'account_usability',
     'l10n_mx_edi_product_refund_accounts',
 ]
@@ -38,6 +35,7 @@ records_to_remove = [
     'account_analytic_tag_assign.purchase_order_mtnmx',
     'account_analytic_tag_assign.purchase_order_mtnmx_analytic_account',
     'account_analytic_tag_assign.sale_order_mtnmx',
+    "studio_customization.odoo_studio_crm_lead_e3207b22-5dc6-4bc3-a186-fbdd94f28925"
 ]
 
 # List of tuples with the following format
