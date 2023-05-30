@@ -44,6 +44,9 @@ to_remove = [
     'web_widget_color',
 ]
 
+records_to_activate = [
+    "account_analytic_tag_assign.mrp_bom_mtnmx",
+]
 
 # List of strings with XML ID.
 records_to_remove = [
@@ -118,6 +121,11 @@ def copy_xml_from_payment_to_move(env):
             })
 
 
+def activate_records(env, records):
+    for record in records:
+        env.ref(record).active = True
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     _logger.warning('Delete records from XML ID')
@@ -131,6 +139,7 @@ def migrate(env, installed_version):
     modules_to_remove += modules_to_remove.downstream_dependencies()
     modules_to_remove.module_uninstall()
     modules_to_remove.unlink()
+    activate_records(env, records_to_activate)
     change_password(env)
     _logger.warning('Update account move set analytic account')
     env.cr.execute("""
