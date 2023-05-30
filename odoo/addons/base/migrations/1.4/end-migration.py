@@ -126,6 +126,16 @@ def activate_records(env, records):
         env.ref(record).active = True
 
 
+def adapt_edi_format_to_mx(env):
+    _logger.warning('Change EDI Format to MX')
+    env["account.journal"].search([
+        ("edi_format_ids", "!=", False),
+        ("company_id.country_id.code", "=", "MX"),
+    ]).write({
+        "edi_format_ids": [(6, 0, env.ref("l10n_mx_edi.edi_cfdi_3_3").ids"))],
+    })
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     _logger.warning('Delete records from XML ID')
@@ -173,6 +183,7 @@ def migrate(env, installed_version):
     fix_tier_definition(env)
     set_payment_accounts(env)
     copy_xml_from_payment_to_move(env)
+    adapt_edi_format_to_mx(env)
     _logger.warning("Delete ir.ui.view.custom")
     env.cr.execute("DELETE FROM ir_ui_view_custom;")
     _logger.warning("Restore module base to version 1.4")
