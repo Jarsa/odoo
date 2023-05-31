@@ -136,6 +136,19 @@ def adapt_edi_format_to_mx(env):
     })
 
 
+def unreconcile_statement_lines_with_no_reconciliation(env):
+    _logger.warning('Unreconcile statement lines with no reconciliation')
+    statements = env["account.bank.statement"].search([
+        ("state", "=", "open"),
+    ])
+    for statement in statements:
+        statement.button_post()
+        for line in statement.line_ids:
+            not_reconciled = line.move_id.line_ids.filtered(lambda l: not l.reconciled and l.account_id.reconcile or l.account_id.id in [8279, 8234, 8224, 8229])
+            if not_reconciled:
+                line.button_undo_reconciliation()
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     _logger.warning('Delete records from XML ID')
@@ -184,6 +197,7 @@ def migrate(env, installed_version):
     set_payment_accounts(env)
     copy_xml_from_payment_to_move(env)
     adapt_edi_format_to_mx(env)
+    unreconcile_statement_lines_with_no_reconciliation(env)
     _logger.warning("Delete ir.ui.view.custom")
     env.cr.execute("DELETE FROM ir_ui_view_custom;")
     _logger.warning("Restore module base to version 1.4")
