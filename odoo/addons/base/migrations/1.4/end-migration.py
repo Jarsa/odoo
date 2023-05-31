@@ -42,6 +42,7 @@ to_remove = [
     'proyecto_recalcular',
     'res_currency_rate_custom_decimals',
     'web_widget_color',
+    'account_move_tier_validation',
 ]
 
 records_to_activate = [
