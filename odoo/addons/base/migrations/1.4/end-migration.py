@@ -86,12 +86,32 @@ def set_payment_accounts(env):
         WHERE id = 1;
     """)
     env.cr.execute("""
+        UPDATE account_journal
+        SET suspense_account_id = 8226
+        WHERE id IN (125, 82, 81, 124, 215, 120, 115, 114, 336, 383, 118, 239, 74, 87, 73, 75, 76, 61, 95, 93, 131, 129, 130, 268, 192);
+    """)
+    env.cr.execute("""
+        UPDATE account_journal
+        SET suspense_account_id = 8224
+        WHERE id IN (245, 246, 373, 79, 80, 102, 110, 111, 108, 234, 169, 132, 105, 233, 107, 193, 232, 235, 171, 326, 225, 4, 6, 62, 248, 261, 175, 267, 112, 252, 214, 325);
+    """)
+    env.cr.execute("""
         UPDATE res_company
         SET
         account_journal_suspense_account_id = 8229,
         account_journal_payment_debit_account_id = 8227,
         account_journal_payment_credit_account_id = 8228
         WHERE id = 4;
+    """)
+    env.cr.execute("""
+        UPDATE account_journal
+        SET suspense_account_id = 8231
+        WHERE id IN (168, 167, 271, 272, 219, 218);
+    """)
+    env.cr.execute("""
+        UPDATE account_journal
+        SET suspense_account_id = 8229
+        WHERE id IN (286, 269, 264, 263, 242, 178, 163, 184, 285, 179, 251, 374, 270);
     """)
     env.cr.execute("""
         UPDATE res_company
@@ -101,6 +121,211 @@ def set_payment_accounts(env):
         account_journal_payment_credit_account_id = 8233
         WHERE id = 3;
     """)
+    env.cr.execute("""
+        UPDATE account_journal
+        SET suspense_account_id = 8236
+        WHERE id IN (174, 247, 236, 151);
+    """)
+    env.cr.execute("""
+        UPDATE account_journal
+        SET suspense_account_id = 8234
+        WHERE id IN (176, 262, 244, 258, 257, 256, 136, 253, 134, 224, 259);
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 8214
+        WHERE apml.journal_id IN (125, 82, 81, 124, 215, 120, 115, 114, 336, 383, 118, 239, 74, 87, 73, 75, 76, 61, 95, 93, 131, 129, 130, 268, 192)
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'inbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 8223
+        WHERE apml.journal_id IN (125, 82, 81, 124, 215, 120, 115, 114, 336, 383, 118, 239, 74, 87, 73, 75, 76, 61, 95, 93, 131, 129, 130, 268, 192)
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'outbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 8227
+        WHERE apml.journal_id IN (168, 167, 271, 272, 219, 218)
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'inbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 8228
+        WHERE apml.journal_id IN (168, 167, 271, 272, 219, 218)
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'outbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 8232
+        WHERE apml.journal_id IN (174, 247, 236, 151)
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'inbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 8233
+        WHERE apml.journal_id IN (174, 247, 236, 151)
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'outbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 536
+        WHERE apml.journal_id = 4
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'inbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 543
+        WHERE apml.journal_id = 4
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'outbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 2359
+        WHERE apml.journal_id = 163
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'inbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 2366
+        WHERE apml.journal_id = 163
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'outbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 1776
+        WHERE apml.journal_id = 136
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'inbound'
+        );
+    """)
+    env.cr.execute("""
+        UPDATE account_payment_method_line AS apml
+        SET payment_account_id = 1783
+        WHERE apml.journal_id = 136
+        AND EXISTS (
+            SELECT 1
+            FROM account_payment_method AS apm
+            WHERE apm.id = apml.payment_method_id
+            AND apm.payment_type = 'outbound'
+        );
+    """)
+    account_map = {
+        245: 882,
+        286: 2244,
+        176: 1663,
+        246: 3921,
+        269: 4137,
+        373: 8043,
+        79: 4101,
+        264: 4103,
+        262: 4102,
+        80: 3769,
+        263: 2245,
+        244: 3915,
+        102: 308,
+        242: 3913,
+        258: 4049,
+        110: 830,
+        111: 840,
+        108: 303,
+        234: 3821,
+        169: 305,
+        132: 306,
+        105: 704,
+        233: 3820,
+        107: 307,
+        257: 4048,
+        193: 2400,
+        232: 302,
+        235: 3829,
+        256: 4047,
+        171: 374,
+        178: 2236,
+        326: 3952,
+        225: 3809,
+        62: 338,
+        184: 2217,
+        253: 1636,
+        248: 3788,
+        261: 537,
+        175: 2388,
+        267: 541,
+        285: 2365,
+        112: 556,
+        179: 2370,
+        134: 1787,
+        252: 543,
+        214: 457,
+        251: 2282,
+        224: 1699,
+        325: 4050,
+        374: 3957,
+        259: 4052,
+        270: 3984,
+    }
+    for journal_id, account_id in account_map.items():
+        env.cr.execute("""
+            UPDATE account_payment_method_line
+            SET payment_account_id = %(account_id)s
+            WHERE journal_id = %(journal_id)s;
+        """, {
+            "account_id": account_id,
+            "journal_id": journal_id,
+        })
 
 
 def copy_xml_from_payment_to_move(env):
