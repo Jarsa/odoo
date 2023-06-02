@@ -417,6 +417,24 @@ def migrate(env, installed_version):
             WHERE ai.move_id = am.id
         );
     """)
+    _logger.warning('Update account move set collection_date')
+    env.cr.execute("""
+        UPDATE account_move am
+        SET collection_date = (
+            SELECT ai.collection_date
+            FROM account_invoice ai
+            WHERE ai.move_id = am.id
+        );
+    """)
+    _logger.warning('Update account move set collection_status')
+    env.cr.execute("""
+        UPDATE account_move am
+        SET collection_status = (
+            SELECT ai.collection_status
+            FROM account_invoice ai
+            WHERE ai.move_id = am.id
+        );
+    """)
     _logger.warning("Activate views")
     env.cr.execute("update ir_ui_view set active=true where id in (1466,1453,2611,1467,2707);")
     fix_tier_definition(env)
