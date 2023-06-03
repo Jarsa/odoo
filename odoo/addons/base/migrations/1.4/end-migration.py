@@ -356,9 +356,9 @@ def adapt_edi_format_to_mx(env):
     _logger.warning('Change EDI Format to MX')
     env["account.journal"].search([
         ("edi_format_ids", "!=", False),
-        ("company_id.country_id.code", "=", "MX"),
+        ("company_id", "in", [1,3,4]),
     ]).write({
-        "edi_format_ids": [(6, 0, env.ref("l10n_mx_edi.edi_cfdi_3_3").ids"))],
+        "edi_format_ids": [(6, 0, env.ref("l10n_mx_edi.edi_cfdi_3_3").ids)],
     })
 
 @openupgrade.migrate()
