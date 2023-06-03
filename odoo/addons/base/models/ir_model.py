@@ -1495,6 +1495,7 @@ class IrModelConstraint(models.Model):
         """
         Delete PostgreSQL foreign keys and constraints tracked by this model.
         """
+        
         if not self.env.is_system():
             raise AccessError(_('Administrator access is required to uninstall a module'))
 
@@ -1631,6 +1632,7 @@ class IrModelRelation(models.Model):
     create_date = fields.Datetime()
 
     def _module_data_uninstall(self):
+        
         """
         Delete PostgreSQL many2many relations tracked by this model.
         """
