@@ -54,7 +54,7 @@ class AccountEdiDocument(models.Model):
                     res = base64.b64encode('\n'.join(config_errors).encode('UTF-8'))
                 elif move.is_invoice(include_receipts=True) and doc.edi_format_id._is_required_for_invoice(move):
                     res = base64.b64encode(doc.edi_format_id._get_invoice_edi_content(doc.move_id))
-                elif move.payment_id and doc.edi_format_id._is_required_for_payment(move):
+                elif doc.edi_format_id._is_required_for_payment(move):
                     res = base64.b64encode(doc.edi_format_id._get_payment_edi_content(doc.move_id))
             doc.edi_content = res
 
