@@ -9,27 +9,28 @@ _logger = logging.getLogger(__name__)
 
 # List of modules to install
 to_install = [
-    'l10n_mx_reports',
+    "l10n_mx_edi_extended_40",
+    "mrp_partial_consumption",
+    "mrp_production_split",
+    "stock_picking_accounting_date",
+    "tecmur_security",
 ]
 
 # List of modules to remove (uninstall)
 to_remove = [
-    'mrp_eco_alphanumeric_version',
-    'mrp_kit_partial_delivery',
-    'purchase_line_invoice_line_zero',
-    'purchase_supplierinfo_currency',
-    'stock_push_scrap',
-    'res_currency_rate_custom_decimals',
-    'web_disable_export_group',
-    'role_policy_sale',
-    'role_policy',
-    'role_policy_account',
-    'l10n_mx_edi_reports',
-    'l10n_mx_partner_fiscal_legend',
+    "res_currency_rate_custom_decimals",
+    "role_policy_sale",
+    "role_policy",
+    "role_policy_account",
+    "l10n_mx_edi_vendor_validation",
+    "l10n_mx_edi_reports",
+    "web_disable_export_group",
+    "l10n_mx_partner_fiscal_legend",
 ]
 
 # List of modules to remove all views.
 modules_remove_views = [
+    "report_stock_picking_tecmur",
 ]
 
 # List of modules to remove all security rules, access and groups.
@@ -54,12 +55,15 @@ tables_to_rename = [
 # List of tuples with the following format
 # ('model.name', 'table_name', 'old_field', 'new_field'),
 fields_to_rename = [
+    ("stock.picking", "stock_picking", "customs_date", "accouting_date"),
 ]
 
 # List of tuples with the follwing format
 # ('old_module_name', 'new_module_name'),
 modules_to_rename = [
-
+    ("purchase_line_invoice_line_zero", "purchase_invoice_line_zero"),
+    ("stock_customs_account_date", "l10n_mx_stock_picking_customs_number"),
+    ("l10n_mx_partner_fiscal_legend", "l10n_mx_edi_fiscal_legend"),
 ]
 
 
@@ -129,10 +133,6 @@ def remove_module_security(env, module_list):
     access.unlink()
     groups.unlink()
 
-def remove_views(env):
-    env.cr.execute(
-            'UPDATE res_users SET active=True WHERE id=1;'
-            )
 
 @openupgrade.migrate()
 def migrate(env, installed_version):
@@ -172,5 +172,3 @@ def migrate(env, installed_version):
         modules_to_remove += modules_to_remove.downstream_dependencies()
         modules_to_remove.module_uninstall()
         modules_to_remove.unlink()
-    _logger.warning('Delete views')
-    remove_views(env)
