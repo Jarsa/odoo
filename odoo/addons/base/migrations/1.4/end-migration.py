@@ -45,6 +45,29 @@ def adapt_edi_format_to_mx(env):
         "edi_format_ids": [(6, 0, env.ref("l10n_mx_edi.edi_cfdi_3_3").ids)],
     })
 
+
+def fix_taxes_lines(env):
+    _logger.warning('Fix taxes lines')
+    taxes = env["account.tax"].search([("type_tax_use", "=", "sale")])
+    for tax in taxes:
+        line = tax.invoice_repartition_line_ids.filtered(lambda x: x.tag_ids)
+        other_line = tax.invoice_repartition_line_ids.filtered(lambda x: not x.tag_ids)
+        other_line.write({
+            "tag_ids": [(6, 0, line.tag_ids.ids)],
+        })
+        line.write({
+            "tag_ids": [(5, 0, 0)],
+        })
+        line = tax.refund_repartition_line_ids.filtered(lambda x: x.tag_ids)
+        other_line = tax.refund_repartition_line_ids.filtered(lambda x: not x.tag_ids)
+        other_line.write({
+            "tag_ids": [(6, 0, line.tag_ids.ids)],
+        })
+        line.write({
+            "tag_ids": [(5, 0, 0)],
+        })
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     if records_to_remove:
@@ -59,6 +82,7 @@ def migrate(env, installed_version):
         modules_to_remove.unlink()
     copy_xml_from_payment_to_move(env)
     adapt_edi_format_to_mx(env)
+    fix_taxes_lines(env)
     env.cr.execute("""
         UPDATE ir_module_module
         SET
