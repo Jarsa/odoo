@@ -18,6 +18,33 @@ records_to_remove = [
 ]
 
 
+def copy_xml_from_payment_to_move(env):
+    _logger.warning("Copy xml from payment to move")
+    payments = env["account.payment"].search([
+        ("state", "=", "posted"),
+        ("edi_document_ids", "!=", False),
+    ])
+    for payment in payments:
+        attachments = env["ir.attachment"].search([
+            ("res_model", "=", "account.payment"),
+            ("res_id", "=", payment.id),
+            ("l10n_mx_edi_cfdi_uuid", "!=", False),
+        ])
+        for attachment in attachments:
+            attachment.with_context(states2omit={"draft", "cancel", "posted"}).copy({
+                "res_model": "account.move",
+                "res_id": payment.move_id.id,
+            })
+
+
+def adapt_edi_format_to_mx(env):
+    _logger.warning('Change EDI Format to MX')
+    env["account.journal"].search([
+        ("edi_format_ids", "!=", False),
+    ]).write({
+        "edi_format_ids": [(6, 0, env.ref("l10n_mx_edi.edi_cfdi_3_3").ids)],
+    })
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     if records_to_remove:
@@ -30,6 +57,8 @@ def migrate(env, installed_version):
         modules_to_remove += modules_to_remove.downstream_dependencies()
         modules_to_remove.module_uninstall()
         modules_to_remove.unlink()
+    copy_xml_from_payment_to_move(env)
+    adapt_edi_format_to_mx(env)
     env.cr.execute("""
         UPDATE ir_module_module
         SET

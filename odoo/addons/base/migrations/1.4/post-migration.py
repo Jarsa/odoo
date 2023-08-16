@@ -26,6 +26,8 @@ to_remove = [
     "l10n_mx_edi_reports",
     "web_disable_export_group",
     "l10n_mx_partner_fiscal_legend",
+    "bi_sql_editor",
+    "sql_request_abstract",
 ]
 
 # List of modules to remove all views.
