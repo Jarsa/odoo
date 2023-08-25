@@ -14,6 +14,7 @@ to_install = [
     "mrp_production_split",
     "stock_picking_accounting_date",
     "tecmur_security",
+    "stock_scrap_tier_validation",
 ]
 
 # List of modules to remove (uninstall)
@@ -28,6 +29,7 @@ to_remove = [
     "l10n_mx_partner_fiscal_legend",
     "bi_sql_editor",
     "sql_request_abstract",
+    "scrap_authorization",
 ]
 
 # List of modules to remove all views.
