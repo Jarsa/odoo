@@ -68,6 +68,16 @@ def fix_taxes_lines(env):
         })
 
 
+def fix_statement_state(env):
+    _logger.warning('Fix statement state')
+    env.cr.execute("""
+        UPDATE account_bank_statement
+        SET
+        state = 'confirm'
+        WHERE state = 'open';
+    """)
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     if records_to_remove:
@@ -83,6 +93,7 @@ def migrate(env, installed_version):
     copy_xml_from_payment_to_move(env)
     adapt_edi_format_to_mx(env)
     fix_taxes_lines(env)
+    fix_statement_state(env)
     env.cr.execute("""
         UPDATE ir_module_module
         SET
