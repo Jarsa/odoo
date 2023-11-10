@@ -87,6 +87,16 @@ def cancel_orphan_moves(env):
     moves._action_cancel()
 
 
+def cancel_draft_productions(env)
+    _logger.warning('Cancel draft productions')
+    env.cr.execute("""
+        UPDATE mrp_production
+        SET
+        state = 'cancel'
+        WHERE state = 'draft';
+    """)
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     if records_to_remove:
@@ -104,6 +114,7 @@ def migrate(env, installed_version):
     fix_taxes_lines(env)
     fix_statement_state(env)
     cancel_orphan_moves(env)
+    cancel_draft_productions(env)
     env.cr.execute("""
         UPDATE ir_module_module
         SET
