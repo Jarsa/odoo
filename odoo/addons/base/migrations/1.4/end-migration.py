@@ -78,6 +78,15 @@ def fix_statement_state(env):
     """)
 
 
+def cancel_orphan_moves(env):
+    _logger.warning('Cancel orphan moves')
+    productions = env["mrp.production"].search([("state", "=", "done")])
+    groups = env["procurement.group"].search([("name", "in", productions.mapped("name"))])
+    moves = env["stock.move"].search([("group_id", "in", groups.ids), ("state", "not in", ["done", "cancel"])])
+    env.cr.execute("UPDATE stock_move_line SET product_uom_qty = 0, product_qty = 0 WHERE move_id IN %(move_ids)s", {"move_ids": tuple(moves.ids)})
+    moves._action_cancel()
+
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     if records_to_remove:
@@ -94,6 +103,7 @@ def migrate(env, installed_version):
     adapt_edi_format_to_mx(env)
     fix_taxes_lines(env)
     fix_statement_state(env)
+    cancel_orphan_moves(env)
     env.cr.execute("""
         UPDATE ir_module_module
         SET

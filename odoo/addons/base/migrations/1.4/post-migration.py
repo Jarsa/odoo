@@ -15,6 +15,7 @@ to_install = [
     "stock_picking_accounting_date",
     "tecmur_security",
     "stock_scrap_tier_validation",
+    "web_disable_export_group",
 ]
 
 # List of modules to remove (uninstall)
@@ -25,7 +26,6 @@ to_remove = [
     "role_policy_account",
     "l10n_mx_edi_vendor_validation",
     "l10n_mx_edi_reports",
-    "web_disable_export_group",
     "l10n_mx_partner_fiscal_legend",
     "bi_sql_editor",
     "sql_request_abstract",
