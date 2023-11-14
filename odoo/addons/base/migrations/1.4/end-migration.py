@@ -150,6 +150,83 @@ def fix_valuation_layer_remaining_qty(env):
                 })
                 qty_to_fix -= qty_to_set
 
+def apply_bank_bridge_accounts(env):
+    _logger.warning('Apply bank bridge accounts')
+    journal_acocunt_map = {
+        12: {
+            "incoming": 737,
+            "outgoing": 738,
+        },
+        10: {
+            "incoming": 739,
+            "outgoing": 740,
+        },
+        15: {
+            "incoming": 741,
+            "outgoing": 742,
+        },
+        31: {
+            "incoming": 743,
+            "outgoing": 744,
+        },
+        13: {
+            "incoming": 745,
+            "outgoing": 746,
+        },
+        11: {
+            "incoming": 747,
+            "outgoing": 748,
+        },
+        14: {
+            "incoming": 749,
+            "outgoing": 750,
+        },
+        16: {
+            "incoming": 751,
+            "outgoing": 752,
+        },
+        18: {
+            "incoming": 753,
+            "outgoing": 754,
+        },
+        17: {
+            "incoming": 755,
+            "outgoing": 756,
+        },
+        19: {
+            "incoming": 757,
+            "outgoing": 758,
+        },
+    }
+    accounts_to_remove = env["account.account"]
+    for journal_id, accounts in journal_acocunt_map.items():
+        journal = env["account.journal"].browse(journal_id)
+        env.cr.execute("""
+            UPDATE account_move_line
+            SET account_id = %(new_account_id)s
+            WHERE account_id IN %(old_account_ids)s
+            """, {
+                "new_account_id": accounts["incoming"],
+                "old_account_ids": tuple(journal.inbound_payment_method_line_ids.mapped("payment_account_id").ids),
+            })
+        env.cr.execute("""
+            UPDATE account_move_line
+            SET account_id = %(new_account_id)s
+            WHERE account_id IN %(old_account_ids)s""", {
+                "new_account_id": accounts["outgoing"],
+                "old_account_ids": tuple(journal.outbound_payment_method_line_ids.mapped("payment_account_id").ids),
+            }
+        )
+        accounts_to_remove |= journal.inbound_payment_method_line_ids.mapped("payment_account_id")
+        accounts_to_remove |= journal.outbound_payment_method_line_ids.mapped("payment_account_id")
+        journal.inbound_payment_method_line_ids.write({
+            "payment_account_id": accounts["incoming"],
+        })
+        journal.outbound_payment_method_line_ids.write({
+            "payment_account_id": accounts["outgoing"],
+        })
+    accounts_to_remove.unlink()
+
 @openupgrade.migrate()
 def migrate(env, installed_version):
     if records_to_remove:
@@ -168,6 +245,8 @@ def migrate(env, installed_version):
     fix_statement_state(env)
     cancel_orphan_moves(env)
     cancel_draft_productions(env)
+    fix_valuation_layer_remaining_qty(env)
+    apply_bank_bridge_accounts(env)
     env.cr.execute("""
         UPDATE ir_module_module
         SET
