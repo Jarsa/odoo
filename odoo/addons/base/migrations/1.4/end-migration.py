@@ -5,6 +5,7 @@ import logging
 import os
 
 from openupgradelib import openupgrade
+from odoo.tools import float_compare
 
 _logger = logging.getLogger(__name__)
 
@@ -87,7 +88,7 @@ def cancel_orphan_moves(env):
     moves._action_cancel()
 
 
-def cancel_draft_productions(env)
+def cancel_draft_productions(env):
     _logger.warning('Cancel draft productions')
     env.cr.execute("""
         UPDATE mrp_production
@@ -96,6 +97,58 @@ def cancel_draft_productions(env)
         WHERE state = 'draft';
     """)
 
+
+def fix_valuation_layer_remaining_qty(env):
+    _logger.warning('Fix valuation layer remaining qty')
+    layers_to_zero = env["stock.valuation.layer"].search([
+        ("product_id.tracking", "=", "lot"),
+        ("remaining_qty", "!=", 0),
+    ])
+    layers_to_zero.write({
+        "remaining_qty": 0,
+        "remaining_value": 0,
+    })
+    quants = env["stock.quant"].search([
+        ("quantity", ">", 0),
+        ("lot_id", "!=", False),
+        ("location_id.usage", "=", "internal"),
+        ("owner_id", "=", False),
+    ])
+    product_mapping = {}
+    for quant in quants:
+        layers = env["stock.valuation.layer"].search([
+            ("product_id", "=", quant.product_id.id),
+            ("lot_ids", "=", quant.lot_id.id),
+        ], order="create_date desc")
+        product_mapping.setdefault(quant.product_id.default_code, {}).setdefault(quant.lot_id.name, {
+            "qty": 0,
+            "layers": env["stock.valuation.layer"],
+            "product": quant.product_id,
+        })
+        product_mapping[quant.product_id.default_code][quant.lot_id.name]["layers"] |= layers
+        product_mapping[quant.product_id.default_code][quant.lot_id.name]["qty"] += quant.quantity
+
+    for product_values in product_mapping.values():
+        processed_layers = env["stock.valuation.layer"]
+        for values in product_values.values():
+            qty_to_fix = values["qty"]
+            for layer in values["layers"]:
+                if layer in processed_layers:
+                    continue
+                processed_layers |= layer
+                if float_compare(qty_to_fix, 0, precision_rounding=values["product"].uom_id.rounding) == 0:
+                    layer.write({
+                        "remaining_qty": 0,
+                    })
+                    continue
+                if layer.quantity < 0:
+                    continue
+                qty_to_set = min(layer.quantity, qty_to_fix)
+                layer.write({
+                    "remaining_qty": qty_to_set,
+                    "remaining_value": qty_to_set * layer.unit_cost,
+                })
+                qty_to_fix -= qty_to_set
 
 @openupgrade.migrate()
 def migrate(env, installed_version):
