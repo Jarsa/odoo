@@ -5620,10 +5620,7 @@ class AccountMoveLine(models.Model):
 
         # ==== Check if a full reconcile is needed ====
 
-        if involved_lines[0].currency_id and all(line.currency_id == involved_lines[0].currency_id for line in involved_lines):
-            is_full_needed = all(line.currency_id.is_zero(line.amount_residual_currency) for line in involved_lines)
-        else:
-            is_full_needed = all(line.company_currency_id.is_zero(line.amount_residual) for line in involved_lines)
+        is_full_needed = all(line.currency_id.is_zero(line.amount_residual_currency) for line in involved_lines) or all(line.company_currency_id.is_zero(line.amount_residual) for line in involved_lines)
 
         if is_full_needed:
 
